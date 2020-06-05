@@ -273,19 +273,18 @@ func (s ProtocolsStruct) register(proto Protocol, client beat.Client, plugin Plu
 	if _, exists := s.all[proto]; exists {
 		logp.Warn("Protocol (%s) plugin will overwritten by another plugin", proto.String())
 	}
-    // fmt.Printf("5/6 prots: %s\n", proto.String())
+
 	s.all[proto] = protocolInstance{
 		client: client,
 		plugin: plugin,
 	}
-	// s.tcp =
 
 	success := false
 	if tcp, ok := plugin.(TCPPlugin); ok {
 		s.tcp[proto] = tcp
 		success = true
 	}
-	// fmt.Printf("5/6 tcp: %v\n", success)
+
 	if !success {
 		logp.Warn("Protocol (%s) tcp register failed, port: %v", proto.String(), plugin.GetPorts())
 	}
@@ -294,7 +293,7 @@ func (s ProtocolsStruct) register(proto Protocol, client beat.Client, plugin Plu
 		s.udp[proto] = udp
 		success = true
 	}
-	// fmt.Printf("5/6 udp: %v\n", success)
+
 	if !success {
 		logp.Warn("Protocol (%s) register failed, port: %v", proto.String(), plugin.GetPorts())
 	}

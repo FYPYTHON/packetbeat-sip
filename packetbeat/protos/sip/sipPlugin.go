@@ -347,6 +347,10 @@ func (sip *sipPlugin) ParseUDP(pkt *protos.Packet) {
 	sip.publishMessage(sipMsg)
 }
 
+/*
+   support parse tcp
+   interface TCPPlugin
+*/
 func (sip *sipPlugin) Parse(pkt *protos.Packet, tcptuple *common.TCPTuple, dir uint8, private protos.ProtocolData) protos.ProtocolData {
 
 	defer logp.Recover("Sip ParseTcp")
@@ -359,9 +363,9 @@ func (sip *sipPlugin) Parse(pkt *protos.Packet, tcptuple *common.TCPTuple, dir u
 
 	debugf("New sip message: %s %s", &pkt.Tuple, transportTCP)
 
-	// create new SIP Message
+	// create new SIP Message transport tcp
 	sipMsg, err = sip.createSIPMessage(transportTCP, pkt.Payload)
-    // debugf("5/6 sipMsg, %s %s\n", err, sipMsg.tuple.String())
+
 	if err != nil {
 		// ignore this message
 		debugf("error %s\n", err)
@@ -370,6 +374,8 @@ func (sip *sipPlugin) Parse(pkt *protos.Packet, tcptuple *common.TCPTuple, dir u
 
 	sipMsg.ts = pkt.Ts
 	sipMsg.tuple = pkt.Tuple
+
+	// find process tuple tcp
 	sipMsg.cmdlineTuple = procs.ProcWatcher.FindProcessesTupleTCP(&pkt.Tuple)
 
 	// parse sip headers.
@@ -414,6 +420,7 @@ func (sip *sipPlugin) ConnectionTimeout() time.Duration {
         return 500
 }
 
+// end tcp plugin interface
 
 func (sip *sipPlugin) parseDetailURI(addr string) (user_info string, host string, port string, params []string) {
 	var prevChar rune

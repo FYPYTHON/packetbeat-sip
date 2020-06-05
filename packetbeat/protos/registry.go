@@ -19,7 +19,6 @@ package protos
 
 import (
 	"time"
-    //"fmt"     // 5/6
 	"github.com/elastic/beats/v7/libbeat/beat"
 	"github.com/elastic/beats/v7/libbeat/common"
 )
@@ -108,6 +107,7 @@ func Lookup(name string) Protocol {
 	return UnknownProtocol
 }
 
+// proto register
 func Register(name string, plugin ProtocolPlugin) {
 	proto := Protocol(len(protocolNames))
 	if p, exists := protocolSyms[name]; exists {
@@ -117,8 +117,5 @@ func Register(name string, plugin ProtocolPlugin) {
 		protocolNames = append(protocolNames, name)
 		protocolSyms[name] = proto
 	}
-    //for proto := range protocolSyms {
-	//	fmt.Printf("5/6 protos registered protocol plugin: %v", proto)
-	//}
 	protocolPlugins[proto] = plugin
 }

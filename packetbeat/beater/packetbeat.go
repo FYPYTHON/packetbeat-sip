@@ -129,7 +129,7 @@ func (pb *packetbeat) init(b *beat.Beat) error {
 		pb.config.IgnoreOutgoing,
 		pb.config.Interfaces.File == "",
 	)
-	// fmt.Printf("5/6 packetbeat.go %s\n", err)
+
 	if err != nil {
 		return err
 	}
